@@ -1,5 +1,6 @@
 import { InferGetServerSidePropsType } from "next";
-
+import { Container,Grid,Card,CardContent,CardMedia,CardActionArea,Typography } from '@mui/material';
+import Link from 'next/link';
 type Data = {
     id: string,
     name: string,
@@ -45,13 +46,36 @@ export const getServerSideProps = async () => {
 function Page({data}: InferGetServerSidePropsType<typeof getServerSideProps>){
     return (
         <div>
-            <ul>
+           <Container maxWidth='sm'>
+           <Grid container spacing={2}>
                 {data.map(attraction => (
-                    <li key={attraction.id}>
-                        {attraction.name} {attraction.coverimage} {attraction.detail}
-                    </li>
+                    
+                    <Grid item xs={6} md={4} key={attraction.id}>
+                        <Card sx={{ maxWidth: 345 }}>
+      <CardActionArea>
+      <Link href={"/attractions/"+attraction.id}>
+        <CardMedia
+          component="img"
+          height="140"
+          image=  {attraction.coverimage} 
+          alt="green iguana"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+          {attraction.name}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+          {attraction.detail}
+          </Typography>
+        </CardContent>
+        </Link>
+      </CardActionArea>
+    </Card>
+                       
+                    </Grid>
                 ))}
-            </ul>
+            </Grid>
+           </Container>
         </div>
     )
 }
